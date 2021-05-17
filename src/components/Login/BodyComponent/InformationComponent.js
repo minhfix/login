@@ -22,9 +22,14 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const InformationComponent = () => {
+  const [name, setName] = useState('');
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [gender, setGender] = useState(0);
+
+  const onChangeNameHandler = (e) => {
+    setName(e.target.value)
+  }
 
   const onDateChange = (event, newDate) => {
     if (newDate !== undefined) {
@@ -50,7 +55,7 @@ const InformationComponent = () => {
       <View style={{flex: 1}} />
       <View style={{flex: 10, boxSizing: 'border-box'}}>
         <View style={{flex: 1}}>
-          <Text style={{fontSize: scale(14)}}>What's your name? (*)</Text>
+          <Text style={{fontSize: scale(14), marginBottom: scale(2)}}>What's your name? (*)</Text>
           <TextInput
             style={{
               borderWidth: 1,
@@ -60,13 +65,13 @@ const InformationComponent = () => {
               fontSize: scale(14),
             }}
             textAlign={'center'}
-            // onChangeText={}
+            onChangeText={onChangeNameHandler}
             // value={}
             placeholder="Name"
           />
         </View>
         <View style={{flex: 1, paddingTop: scale(20)}}>
-          <Text style={{fontSize: scale(14)}}>What's your date of birth?</Text>
+          <Text style={{fontSize: scale(14), marginBottom: scale(2)}}>What's your date of birth?</Text>
           <TouchableOpacity
             onPress={() => {
               setShow(true);
@@ -98,13 +103,13 @@ const InformationComponent = () => {
             )}
           </View>
         </View>
-        <View style={{flex: 2, paddingTop: scale(10)}}>
+        <View style={{flex: 2, marginTop: scale(20)}}>
           <Text style={{fontSize: scale(14)}}>What’s your gender? (*) </Text>
           <View
             style={{
               display: 'flex',
               flexDirection: 'row',
-              paddingTop: scale(10),
+              paddingTop: scale(5),
               justifyContent: 'space-evenly',
             }}>
             <LinearGradient
