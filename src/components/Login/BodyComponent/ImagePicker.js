@@ -3,7 +3,16 @@ import {Text, View, TouchableOpacity} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ImagePickerCrop from 'react-native-image-crop-picker';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+import {scale} from 'react-native-size-matters';
+
+const picker = {
+  width: 300,
+  height: 300,
+  cropping: true,
+  freeStyleCropEnabled: true,
+  date: 'base64',
+  includeBase64:true,
+}
 
 const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
   const options = [
@@ -11,14 +20,7 @@ const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
       name: 'Take from Camera',
       icon: <FontAwesome name="camera" size={21} color="grey" />,
       onPress: () => {
-        ImagePickerCrop.openCamera({
-          width: 300,
-          height: 300,
-          cropping: true,
-          freeStyleCropEnabled: true,
-          date: 'base64',
-          includeBase64:true,
-        })
+        ImagePickerCrop.openCamera(picker)
           .then(image => {
             onFileSelected(image);
           })
@@ -31,16 +33,8 @@ const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
       name: 'Choose from Galley',
       icon: <FontAwesome name="image" size={21} color="grey" />,
       onPress: () => {
-        ImagePickerCrop.openPicker({
-          width: 300,
-          height: 300,
-          cropping: true,
-          freeStyleCropEnabled: true,
-          // date: 'base64',
-          includeBase64:true,
-        })
+        ImagePickerCrop.openPicker(picker)
           .then(image => {
-            console.log('image',image )
             onFileSelected(image);
           })
           .catch(err => {

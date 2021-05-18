@@ -26,40 +26,37 @@ const Login = () => {
     }
   };
 
+  const onFileSelected = image => {
+    closeSheet();
+    setLocalFile(image);
+  };
+
   const onNextHandler = () => {
-    if(localFile) {
+    if (localFile) {
       saveImage(`data:${localFile.mime};base64,${localFile.data}`);
     }
   };
 
-  const getImage = async () => {
-    try {
-      const value = await AsyncStorage.getItem('avatar_key').then(data =>
-        // console.log('data: ', data)
-        data
-      );
-      if (value !== null) {
-        console.log('value: ', value);
-      }
-      console.log('load done: ');
-    } catch (e) {
-      console.log('get data error: ', e);
-    }
-  };
+  // const getImage = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('avatar_key').then(imageData => imageData);
+  //     if (value !== null) {
+  //       // console.log('value: ', value);
+  //     }
+  //     console.log('load done: ');
+  //   } catch (e) {
+  //     console.log('get data error: ', e);
+  //   }
+  // };
 
   const saveImage = async value => {
     try {
-      console.log('saving');
+      // console.log('saving');
       await AsyncStorage.setItem('avatar_key', value);
-      console.log('save done');
+      // console.log('save done');
     } catch (err) {
       console.log('save appsync storage err: ' + err);
     }
-  };
-
-  const onFileSelected = image => {
-    closeSheet();
-    setLocalFile(image);
   };
 
   return (

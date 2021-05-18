@@ -8,7 +8,6 @@ import InformationComponent from './InformationComponent';
 const BodyComponent = ({
   sheetRef,
   openSheet,
-  closeReef,
   localFile,
   onFileSelected,
 }) => {
