@@ -17,25 +17,19 @@ import HeaderComponent from './HeaderComponent';
 import BodyComponent from './BodyComponent/BodyComponent';
 import FooterComponent from './FooterComponent';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 const LoginComponent = ({
-  sheetRef,
-  openSheet,
-  localFile,
-  onFileSelected,
+  loginInfor,
+  setLoginInfor,
+  onChangeText,
   onNext,
 }) => {
-
   return (
     <View style={{flex: 1, backgroundColor: '#FCFCFD'}}>
       <HeaderComponent />
       <BodyComponent
-        sheetRef={sheetRef}
-        openSheet={openSheet}
-        onFileSelected={onFileSelected}
-        localFile={localFile}
+        loginInfor = {loginInfor}
+        setLoginInfor ={setLoginInfor}
+        onChangeText={onChangeText}
       />
       <FooterComponent onNext={onNext} />
     </View>

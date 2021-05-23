@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   Dimensions,
+  LogBox,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import LinearGradient from 'react-native-linear-gradient';
@@ -14,34 +15,29 @@ import {scale} from 'react-native-size-matters';
 
 import {InfomationComponentStyles as styles} from './css/InfomationComponentStyles';
 
-const InformationComponent = () => {
-  const [name, setName] = useState('');
-  const [date, setDate] = useState(new Date());
+const InformationComponent = ({loginInfor, onChangeText}) => {
+  
   const [show, setShow] = useState(false);
-  const [gender, setGender] = useState(0);
-
-  const onChangeNameHandler = e => {
-    setName(e.target.value);
-  };
+  const { name , birth, gender } = loginInfor ;
 
   const onDateChange = (event, newDate) => {
-    if (newDate !== undefined) {
-      setDate(newDate);
-    }
     setShow(false);
-  };
-
-  const chooseMale = () => {
-    if (gender !== 0) {
-      setGender(0);
+    if (newDate) {
+      onChangeText({fieldName: 'birth', fieldValue: newDate});
     }
   };
 
-  const chooseFemale = () => {
-    if (gender !== 1) {
-      setGender(1);
-    }
-  };
+  // const chooseMale = () => {
+  //   if (gender !== 0) {
+  //     setGender(0);
+  //   }
+  // };
+
+  // const chooseFemale = () => {
+  //   if (gender !== 1) {
+  //     setGender(1);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -52,8 +48,10 @@ const InformationComponent = () => {
           <TextInput
             style={styles.inputName}
             textAlign={'center'}
-            onChangeText={onChangeNameHandler}
-            // value={}
+            onChangeText={value => {
+              onChangeText({fieldName: 'name', fieldValue: value});
+            }}
+            value={name}
             placeholder="Name"
           />
         </View>
@@ -67,18 +65,21 @@ const InformationComponent = () => {
               style={styles.birthInput}
               textAlign={'center'}
               editable={false}
-              value={format(date, 'dd/MM/yyyy')}
-              placeholder={format(date, 'dd/MM/yyyy')}
+              value={format(new Date(birth), 'dd/MM/yyyy')}
+              placeholder={format(new Date(birth), 'dd/MM/yyyy')}
             />
           </TouchableOpacity>
           <View>
             {show && (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={date}
+                value={birth}
                 mode="date"
                 display="default"
                 showSoftInputOnFocus={false}
+                onChange={newDate => {
+                  onChangeText({fieldName: 'birth', fieldValue: newDate});
+                }}
                 onChange={onDateChange}
               />
             )}
@@ -104,7 +105,9 @@ const InformationComponent = () => {
                     backgroundColor: gender === 0 ? 'transparent' : '#fff',
                   },
                 ]}
-                onPress={chooseMale}>
+                onPress={() => {
+                  onChangeText({fieldName: 'gender', fieldValue: 0});
+                }}>
                 <FontAwesome
                   name="mars"
                   size={scale(30)}
@@ -138,7 +141,9 @@ const InformationComponent = () => {
                     backgroundColor: gender === 1 ? 'transparent' : '#fff',
                   },
                 ]}
-                onPress={chooseFemale}>
+                onPress={() => {
+                  onChangeText({fieldName: 'gender', fieldValue: 1});
+                }}>
                 <FontAwesome
                   name="venus"
                   size={scale(30)}

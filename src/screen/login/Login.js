@@ -5,54 +5,57 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginComponent from '../../components/Login/LoginComponent';
 
 const Login = () => {
-  const [localFile, setLocalFile] = useState(null);
-  const sheetRef = useRef(null);
+  const [loginInfor, setLoginInfor] = useState({
+    avatar: '',
+    name: '',
+    birth: new Date(),
+    gender: 0,
+  });
 
-  const closeReef = () => {
-    if (sheetRef.current) {
-      sheetRef.current.close();
-    }
-  };
+  useEffect(() => {
+    const getLoginData = async () => {
+      try {
+        const loginData = await AsyncStorage.getItem('loginInfor_key').then(
+          value => value,
+        );
+        if (loginData !== null) {
+          setLoginInfor({...loginInfor, loginData});
+        }
+      } catch (e) {
+        console.log('get data error: ', e);
+      }
+    };
 
-  const openSheet = () => {
-    if (sheetRef.current) {
-      sheetRef.current.open();
-    }
-  };
+    getLoginData();
+  },[]);
 
-  const closeSheet = () => {
-    if (sheetRef.current) {
-      sheetRef.current.close();
-    }
-  };
-
-  const onFileSelected = image => {
-    closeSheet();
-    setLocalFile(image);
+  const onChangeText = ({fieldName, fieldValue}) => {
+    setLoginInfor({...loginInfor, [fieldName]: fieldValue});
   };
 
   const onNextHandler = () => {
-    if (localFile) {
-      saveImage(`data:${localFile.mime};base64,${localFile.data}`);
+    if (loginInfor) {
+      saveLoginData({...loginInfor});
     }
   };
 
-  // const getImage = async () => {
+  // const getLoginData = async () => {
   //   try {
-  //     const value = await AsyncStorage.getItem('avatar_key').then(imageData => imageData);
-  //     if (value !== null) {
-  //       // console.log('value: ', value);
+  //     const loginData = await AsyncStorage.getItem('loginInfor_key').then(
+  //       value => value,
+  //     );
+  //     if (loginData !== null) {
+  //       setLoginInfor({...loginInfor, loginData});
   //     }
-  //     console.log('load done: ');
   //   } catch (e) {
   //     console.log('get data error: ', e);
   //   }
   // };
 
-  const saveImage = async value => {
+  const saveLoginData = async value => {
     try {
       // console.log('saving');
-      await AsyncStorage.setItem('avatar_key', value);
+      await AsyncStorage.setItem('loginInfor_key', JSON.stringify(value));
       // console.log('save done');
     } catch (err) {
       console.log('save appsync storage err: ' + err);
@@ -63,11 +66,9 @@ const Login = () => {
     <View style={{flex: 1}}>
       <StatusBar barStyle={'dark-content'} backgroundColor="#FCFCFD" />
       <LoginComponent
-        sheetRef={sheetRef}
-        openSheet={openSheet}
-        closeReef={closeReef}
-        onFileSelected={onFileSelected}
-        localFile={localFile}
+        loginInfor={loginInfor}
+        setLoginInfor={setLoginInfor}
+        onChangeText={onChangeText}
         onNext={onNextHandler}
       />
     </View>

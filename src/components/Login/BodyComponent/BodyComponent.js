@@ -6,20 +6,20 @@ import AvartarComponent from './AvartarComponent';
 import InformationComponent from './InformationComponent';
 
 const BodyComponent = ({
-  sheetRef,
-  openSheet,
-  localFile,
-  onFileSelected,
+  loginInfor,
+  setLoginInfor,
+  onChangeText,
 }) => {
   return (
     <View style={{flex: 9.5}}>
       <AvartarComponent
-        sheetRef={sheetRef}
-        openSheet={openSheet}
-        onFileSelected={onFileSelected}
-        localFile={localFile}
+        loginInfor={loginInfor}
+        setLoginInfor={setLoginInfor}
       />
-      <InformationComponent />
+      <InformationComponent
+        loginInfor={loginInfor}
+        onChangeText={onChangeText}
+      />
     </View>
   );
 };
